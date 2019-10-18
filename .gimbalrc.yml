@@ -1,0 +1,77 @@
+audits:
+  - size
+  - lighthouse
+  - heap-snapshot
+  - unused-source
+
+configs:
+  comment:
+    onlyFailures: true
+
+  heap-snapshot:
+    threshold:
+      Documents: 11
+      Frames: 5
+      JSHeapTOtalSize: 13356000
+      JSHeapUsedSize: 10068000
+      Nodes: 800
+      RecalcStyleCount: 15
+      LayoutCount: 15
+
+  lighthouse:
+    skipAudits:
+      - uses-http2
+      - redirects-http
+      - uses-long-cache-ttl
+      - uses-text-compression
+    outputHtml: ./artifacts/lighthouse.html
+    threshold:
+      accessibility: 95
+      best-practices: 95
+      performance: 95
+      pwa: 95
+      seo: 95
+
+  size:
+    - path: ./build/favicon.ico
+      maxSize: 5 KB
+    - path: ./build
+      maxSize: 600 KB
+
+  unused-source:
+    threshold:
+      - path: "**/*(private).*.chunk.css"
+        maxSize: 60%
+      - path: "**!(private).*.chunk.css"
+        maxSize: 60%
+      - path: "**/*([0-9]).*.chunk.js"
+        maxSize: 90%
+      - path: "**/!([0-9]|main).*.chunk.js"
+        maxSize: 45%
+      - path: "**/(main).*.chunk.js"
+        maxSize: 50%
+
+outputs:
+  cli:
+    onlyFailures: true
+  html: ./artifacts/results.html
+  json: ./artifacts/results.json
+  markdown: ./artifacts/results.md
+
+plugins:
+    - plugin: "@modus/gimbal-plugin-last-value"
+      saveOnlyOnSuccess: false
+
+    - plugin: "@modus/gimbal-plugin-sqlite"
+      lastValue: true
+
+    - plugin: "@modus/gimbal-plugin-axe"
+      thresholds:
+        aria-allowed-attr: critical
+        color-contrast: serious
+        landmark-one-main: moderate
+        landmark-complementary-is-top-level: moderate
+        meta-viewport: critical
+        region: moderate
+        page-has-heading-one: moderate
+        scrollable-region-focusable: moderate

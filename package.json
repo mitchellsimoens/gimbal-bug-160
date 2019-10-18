@@ -12,7 +12,14 @@
     "react-scripts": "3.2.0",
     "typescript": "3.6.4"
   },
+  "devDependencies": {
+    "@modus/gimbal": "^1.2.6",
+    "@modus/gimbal-plugin-axe": "^1.2.6",
+    "@modus/gimbal-plugin-last-value": "^1.2.6",
+    "@modus/gimbal-plugin-sqlite": "^1.2.6"
+  },
   "scripts": {
+    "gimbal-audit": "gimbal audit",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
